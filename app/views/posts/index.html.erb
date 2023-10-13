@@ -1,14 +1,36 @@
-<p style="color: green"><%= notice %></p>
+<%= render 'navbar' %>
+<section class="main">
+    <div class="container">
+        <div class="left-col">
+            <div class="status-wrapper">
+                <div class="status-card">
+                    <div class="profile-pic"><%= image_tag "pexels-jess-bailey-designs-1172849.jpg", alt: "" %>
+</div>
+                    <p class="username">user_name_1</p>
+                </div>
+                <div class="status-card">
+                  <div class="profile-pic"><%= image_tag "pexels-jess-bailey-designs-1172849.jpg", alt: "" %>
+</div>
+                    <p class="username">user_name_2</p>
+                </div>
+                <div class="status-card">
+                    <div class="profile-pic"><%= image_tag "pexels-jess-bailey-designs-1172849.jpg", alt: "" %>
+</div>
+                    <p class="username">user_name_3</p>
+                </div>
 
-<h1>All Posts</h1>
+        </div>
+    </div>
+</section>
+<p style="color: green"><%= notice %></p>
+<%# <%= link_to "New post", new_post_path %>
 
 <div id="posts">
   <% @post.each do |post| %>
     <%= render post %>
-    <p>
-      <%= link_to "Show this post", post %>
-    </p>
+
+
+
   <% end %>
 </div>
 
-<%= link_to "New post", new_post_path %>

@@ -1,0 +1,22 @@
+<nav class="navbar">
+    <div class="nav-wrapper">
+
+        <%= image_tag "insta-logo.png", class: "brand-img", alt: "" %>
+
+        <input type="text" class="search-box" placeholder="search">
+        <div class="nav-items">
+
+<i class="fa-solid fa-house icon"></i>
+<i class="fa-solid fa-comment icon"></i>
+
+<%= link_to new_post_path do %>
+  <i class="fa-solid fa-plus icon"></i>
+<% end %>
+
+<i class="fa-solid fa-heart icon"></i>
+
+
+            <div class="icon user-profile"></div>
+        </div>
+    </div>
+</nav>

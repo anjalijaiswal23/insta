@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :set_post, only: %i[ show edit update destroy like ]
 
 
   # GET /posts or /posts.json
@@ -7,9 +7,22 @@ class PostsController < ApplicationController
     @post = Post.all
   end
 
-  # GET /posts/1 or /posts/1.json
-  def show
+  def like
+    @post = Post.find(params[:id])
+    @post.likes.create(user: current_user)
+    respond_to :js
+    render json: { likes_count: post.likes.count }
   end
+
+  def unlike
+    @post = Post.find(params[:id])
+    @like = @post.likes.find_by(user: current_user)
+    @like.destroy if @like
+    respond_to :js
+    render json: { likes_count: post.likes.count }
+
+  end
+ 
 
   # GET /posts/new
   def new
@@ -36,6 +49,10 @@ class PostsController < ApplicationController
     end
   end
 
+
+
+
+
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
     respond_to do |format|
@@ -48,6 +65,7 @@ class PostsController < ApplicationController
       end
     end
   end
+
 
   # DELETE /posts/1 or /posts/1.json
   def destroy

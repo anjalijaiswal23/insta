@@ -1,22 +1,49 @@
-<div id="<%= dom_id(post) %>">
-  <p>
-    <strong>Title:</strong>
-    <%= post.title %>
-  </p>
+<div id="post-details" class="container">
+    <div class="post">
+        <%= link_to post, class: "fa-solid fa-expand" do %>
 
-  <p>
-    <strong>Content:</strong>
-    <%= post.content %>
-  </p>
+        <% end %>
 
-  <p>
-    <strong>User:</strong>
-    <%= post.user_id %>
-  </p>
+        <div class="post-image">
+            <% if post.photo.attached? %>
+                <%= image_tag url_for(post.photo), class: "img-fluid" %>
+            <% end %>
+      </div>
+      <p class="likes">
+        <% if current_user.likes?(post) %>
+        <%= button_to "", unlike_post_path(post), method: :delete, remote: true, class: "fa-regular fa-heart" %>
+      <% else %>
+        <%= button_to "", like_post_path(post), remote: true, class: "fa-regular fa-heart" %>
+      <% end %>
+        <span id="like-count-<%= post.id %>"><%= post.likes.count %> likes</span>
+      </p>
 
-  <div>
-    <% if post.photo.attached? %>
-      <%= image_tag url_for(post.photo) %>
-    <% end %>
-  </div>
+      <p class="description"><span><%= post.title %></span><%= post.content %></p>
+      <p class="post-time"><%= time_ago_in_words(2.minutes.ago) %> ago</p>
+        </div>
+        <div class="post-actions">
+            <% if post.user == current_user %>
+                <%= link_to "Edit", edit_post_path(post), class: "btn btn-primary mr-2" %>
+            <% end %>
+        </div>
+        <div class="comments">
+
+            <% post.comments.each do |comment| %>
+                <div class="comment">
+                    <p><%= comment.content %></p>
+                    <% if comment.user == current_user %>
+                       <%= link_to "Delete comment", post_comment_path(post, comment), method: :delete, data: { turbo_method: :delete, turbo_frame: 'item_form' }, class: "btn btn-danger btn-sm" %>
+                    <% end %>
+                </div>
+            <% end %>
+        </div>
+        <div class="comment-form">
+            <%= form_with(model: [post, Comment.new], url: post_comments_path(post), local: true) do |form| %>
+                <%= form.text_field :content, class: "comment-input comment-box", placeholder: " Add a comment..." %>
+                <%= form.submit "Post", class: "btn btn-link comment-btn" %>
+            <% end %>
+        </div>
+    </div>
 </div>
+
+
